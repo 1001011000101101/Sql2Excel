@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Queries>
+		<PlacesQuery>
+				SELECT plc_id ID, "Name" FROM "Tepl"."Places_cnt" WHERE typ_id = 2
+		</PlacesQuery>
+		
+		<ReportQuery ReportName="ТЭ" ReportSysName="Heat" Servers="Tyumen,Surgut">
+				SELECT
+				'Кв.' || P."Name" AS "Помещение"
+				, D."Numbe" AS "Прибор"
+				,ARCHIVE_E1_BEGIN."DataValue" AS "Энергия [тепло] (нач)"
+				,ARCHIVE_E1_END."DataValue" AS "Энергия [тепло] (кон)"
+				,ARCHIVE_E1_END."DataValue" - ARCHIVE_E1_BEGIN."DataValue" AS "Энергия [тепло] (потребл)"
+
+				, D."Comment"
+
+				-- ,D.dev_id
+				-- , D.dev_typ_id
+				-- , D."Conf_id"
+				-- , D.plc_id
+				-- ,PR_DT.prp_id AS "PR_DT.prp_id"
+				-- ,PR_E1.prp_id AS "PR_E1.prp_id"
+				-- ,PR_T1.prp_id AS "PR_T1.prp_id"
+				-- ,PR_T2.prp_id AS "PR_T2.prp_id"
+				-- ,PR_M3.prp_id AS "PR_M3.prp_id"
+				-- ,PR_IMP1.prp_id AS "PR_IMP1.prp_id"
+				-- ,PR_IMP2.prp_id AS "PR_IMP2.prp_id"
+
+
+				FROM "Tepl"."Device_cnt" D
+				--LEFT JOIN  "Tepl"."Places_cnt" P ON P.plc_id = D.plc_id
+				LEFT JOIN "Tepl"."PointRead" PR_DT ON D.dev_id = PR_DT.dev_id AND PR_DT.pr_typ_id = 9410
+				LEFT JOIN "Tepl"."PointRead" PR_E1 ON D.dev_id = PR_E1.dev_id AND PR_E1.pr_typ_id = 9389
+				LEFT JOIN "Tepl"."PointRead" PR_T1 ON D.dev_id = PR_T1.dev_id AND PR_T1.pr_typ_id = 9392
+				LEFT JOIN "Tepl"."PointRead" PR_T2 ON D.dev_id = PR_T2.dev_id AND PR_T2.pr_typ_id = 9393
+				LEFT JOIN "Tepl"."PointRead" PR_M3 ON D.dev_id = PR_M3.dev_id AND PR_M3.pr_typ_id = 9395
+				LEFT JOIN "Tepl"."PointRead" PR_IMP1 ON D.dev_id = PR_IMP1.dev_id AND PR_IMP1.pr_typ_id = 9398
+				LEFT JOIN "Tepl"."PointRead" PR_IMP2 ON D.dev_id = PR_IMP2.dev_id AND PR_IMP2.pr_typ_id = 9399
+
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_E1_BEGIN ON ARCHIVE_E1_BEGIN.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_E1_BEGIN.pr_id = PR_E1.prp_id AND ARCHIVE_E1_BEGIN."DateValue" = @BeginDate
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_E1_END ON ARCHIVE_E1_END.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_E1_END.pr_id = PR_E1.prp_id AND ARCHIVE_E1_END."DateValue" = @EndDate
+
+				LEFT JOIN "Tepl"."ParamResPlc_cnt" PRP ON PRP.prp_id = PR_DT.prp_id
+				LEFT JOIN  "Tepl"."Places_cnt" P ON P.plc_id = PRP.plc_id
+
+				WHERE D.plc_id = @PlaceID
+				ORDER BY P."Name"::int
+		</ReportQuery>
+
+		<ReportQuery ReportName="ХВС, ГВС" ReportSysName="Water" Servers="Tyumen,Surgut">
+				SELECT
+				'Кв.' || P."Name" AS "Помещение"
+				, D."Numbe" AS "Прибор"
+				,ARCHIVE_IMP1_BEGIN."DataValue" AS "Импульсный вход 1 (нач)"
+				,ARCHIVE_IMP1_END."DataValue" AS "Импульсный вход 1 (кон)"
+				,ARCHIVE_IMP1_END."DataValue" - ARCHIVE_IMP1_BEGIN."DataValue" AS "Импульсный вход 1 (потребл)"
+
+				,ARCHIVE_IMP2_BEGIN."DataValue" AS "Импульсный вход 2 (нач)"
+				,ARCHIVE_IMP2_END."DataValue" AS "Импульсный вход 2 (кон)"
+				,ARCHIVE_IMP2_END."DataValue" - ARCHIVE_IMP2_BEGIN."DataValue" AS "Импульсный вход 2 (потребл)"
+
+				,ARCHIVE_IMP3_BEGIN."DataValue" AS "Импульсный вход 3 (нач)"
+				,ARCHIVE_IMP3_END."DataValue" AS "Импульсный вход 3 (кон)"
+				,ARCHIVE_IMP3_END."DataValue" - ARCHIVE_IMP3_BEGIN."DataValue" AS "Импульсный вход 3 (потребл)"
+
+				,ARCHIVE_IMP4_BEGIN."DataValue" AS "Импульсный вход 4 (нач)"
+				,ARCHIVE_IMP4_END."DataValue" AS "Импульсный вход 4 (кон)"
+				,ARCHIVE_IMP4_END."DataValue" - ARCHIVE_IMP4_BEGIN."DataValue" AS "Импульсный вход 4 (потребл)"
+
+				, D."Comment"
+
+				-- ,D.dev_id
+				-- , D.dev_typ_id
+				-- , D."Conf_id"
+				-- , D.plc_id
+				-- ,PR_DT.prp_id AS "PR_DT.prp_id"
+				-- ,PR_E1.prp_id AS "PR_E1.prp_id"
+				-- ,PR_T1.prp_id AS "PR_T1.prp_id"
+				-- ,PR_T2.prp_id AS "PR_T2.prp_id"
+				-- ,PR_M3.prp_id AS "PR_M3.prp_id"
+				-- ,PR_IMP1.prp_id AS "PR_IMP1.prp_id"
+				-- ,PR_IMP2.prp_id AS "PR_IMP2.prp_id"
+
+
+				FROM "Tepl"."Device_cnt" D
+				--LEFT JOIN  "Tepl"."Places_cnt" P ON P.plc_id = D.plc_id
+				LEFT JOIN "Tepl"."PointRead" PR_DT ON D.dev_id = PR_DT.dev_id AND PR_DT.pr_typ_id = 9410 /*ID from DeviceTypeParametr*/
+				LEFT JOIN "Tepl"."PointRead" PR_E1 ON D.dev_id = PR_E1.dev_id AND PR_E1.pr_typ_id = 9389
+				LEFT JOIN "Tepl"."PointRead" PR_T1 ON D.dev_id = PR_T1.dev_id AND PR_T1.pr_typ_id = 9392
+				LEFT JOIN "Tepl"."PointRead" PR_T2 ON D.dev_id = PR_T2.dev_id AND PR_T2.pr_typ_id = 9393
+				LEFT JOIN "Tepl"."PointRead" PR_M3 ON D.dev_id = PR_M3.dev_id AND PR_M3.pr_typ_id = 9395
+				LEFT JOIN "Tepl"."PointRead" PR_IMP1 ON D.dev_id = PR_IMP1.dev_id AND PR_IMP1.pr_typ_id = 9398
+				LEFT JOIN "Tepl"."PointRead" PR_IMP2 ON D.dev_id = PR_IMP2.dev_id AND PR_IMP2.pr_typ_id = 9399
+				LEFT JOIN "Tepl"."PointRead" PR_IMP3 ON D.dev_id = PR_IMP3.dev_id AND PR_IMP3.pr_typ_id = 9400
+				LEFT JOIN "Tepl"."PointRead" PR_IMP4 ON D.dev_id = PR_IMP4.dev_id AND PR_IMP4.pr_typ_id = 9401
+
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP1_BEGIN ON ARCHIVE_IMP1_BEGIN.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP1_BEGIN.pr_id = PR_IMP1.prp_id AND ARCHIVE_IMP1_BEGIN."DateValue" = @BeginDate
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP1_END ON ARCHIVE_IMP1_END.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP1_END.pr_id = PR_IMP1.prp_id AND ARCHIVE_IMP1_END."DateValue" = @EndDate
+
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP2_BEGIN ON ARCHIVE_IMP2_BEGIN.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP2_BEGIN.pr_id = PR_IMP2.prp_id AND ARCHIVE_IMP2_BEGIN."DateValue" = @BeginDate
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP2_END ON ARCHIVE_IMP2_END.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP2_END.pr_id = PR_IMP2.prp_id AND ARCHIVE_IMP2_END."DateValue" = @EndDate
+
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP3_BEGIN ON ARCHIVE_IMP3_BEGIN.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP3_BEGIN.pr_id = PR_IMP3.prp_id AND ARCHIVE_IMP3_BEGIN."DateValue" = @BeginDate
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP3_END ON ARCHIVE_IMP3_END.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP3_END.pr_id = PR_IMP3.prp_id AND ARCHIVE_IMP3_END."DateValue" = @EndDate
+
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP4_BEGIN ON ARCHIVE_IMP4_BEGIN.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP4_BEGIN.pr_id = PR_IMP4.prp_id AND ARCHIVE_IMP4_BEGIN."DateValue" = @BeginDate
+				LEFT JOIN "Tepl"."Arhiv_cnt" ARCHIVE_IMP4_END ON ARCHIVE_IMP4_END.typ_arh = 2 /* 2 is day type of archive */ AND ARCHIVE_IMP4_END.pr_id = PR_IMP4.prp_id AND ARCHIVE_IMP4_END."DateValue" = @EndDate
+
+
+
+				LEFT JOIN "Tepl"."ParamResPlc_cnt" PRP ON PRP.prp_id = PR_DT.prp_id
+				LEFT JOIN  "Tepl"."Places_cnt" P ON P.plc_id = PRP.plc_id
+
+				WHERE D.plc_id = @PlaceID
+
+				ORDER BY P."Name"::int
+
+		</ReportQuery>
+		
+		
+
+</Queries>
