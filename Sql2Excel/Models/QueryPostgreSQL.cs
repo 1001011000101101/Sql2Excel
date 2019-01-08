@@ -10,13 +10,13 @@ using System.Reflection;
 namespace Sql2Excel.Models
 {
     //This class responsible for one thing - execute query to PostgreSQL
-    class QueryPostreSQL : Query
+    class QueryPostgreSQL : Query
     {
-        public QueryPostreSQL()
+        public QueryPostgreSQL()
         {
         }
 
-        public QueryPostreSQL(string ConnectionString)
+        public QueryPostgreSQL(string ConnectionString)
         {
             this.ConnectionString = ConnectionString;
         }
