@@ -2,4 +2,5 @@
 <Servers>
 		<Server DbName="PostgreSQL" SysName="Tyumen" Name="Тюмень" ConnectionString="Host=localhost;Username=postgres;Password=postgres;Database=NewBase"></Server>
 		<Server DbName="PostgreSQL" SysName="Surgut" Name="Сургут" ConnectionString="Host=localhost;Username=postgres;Password=postgres;Database=GP2"></Server>
+		<Server DbName="MSSQL" SysName="TyumenEnergy" Name="Тюмень (Энергия)" ConnectionString=""></Server>
 </Servers>

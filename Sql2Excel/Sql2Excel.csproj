@@ -77,6 +77,7 @@
     <Compile Include="Models\IExport.cs" />
     <Compile Include="Models\Query.cs" />
     <Compile Include="Models\QueryFactory.cs" />
+    <Compile Include="Models\QueryMSSQL.cs" />
     <Compile Include="Models\QueryPostgreSQL.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Place.cs" />

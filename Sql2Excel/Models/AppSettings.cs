@@ -15,7 +15,7 @@ namespace Sql2Excel.Models
     {
         public string ReportsFolder;
         public string FilesFolder;
-        public string PlacesQuery;
+        public List<(string Query, string[] Servers)> PlacesQueries;
         public List<(string ReportName, string ReportSysName, string Query, string[] Servers)> ReportQueries;
         public List<(string SysName, string Name, string ConnectionString, string DbName)> Servers;
         public List<Server> ServersDataSource;

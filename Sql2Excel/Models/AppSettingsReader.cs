@@ -17,6 +17,7 @@ namespace Sql2Excel.Models
         {
             AppSettings appSettings;
             appSettings.ReportQueries = new List<(string ReportName, string ReportSysName, string Query, string[] Servers)>();
+            appSettings.PlacesQueries = new List<(string Query, string[] Servers)>();
             appSettings.Servers = new List<(string SysName, string Name, string ConnectionString, string DbName)>();
             appSettings.ServersDataSource = new List<Server>();
 
@@ -31,7 +32,17 @@ namespace Sql2Excel.Models
 
                 string xml = File.ReadAllText(Path.Combine(appSettings.FilesFolder, queriesFileName));
                 XDocument xDocument = XDocument.Parse(xml);
-                appSettings.PlacesQuery = xDocument.Descendants("PlacesQuery").Select(x => x.Value).FirstOrDefault();
+                //appSettings.PlacesQuery = xDocument.Descendants("PlacesQuery").Select(x => x.Value).FirstOrDefault();
+
+                xDocument.Descendants("PlacesQuery").Select(x => new
+                {
+                    Query = x.Value,
+                    Servers = x.Attribute("Servers")?.Value.Split(',')
+
+                }).ToList().ForEach(x =>
+                {
+                    appSettings.PlacesQueries.Add((x.Query, x.Servers));
+                });
 
 
                 xDocument.Descendants("ReportQuery").Select(x => new

@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Queries>
-		<PlacesQuery>
+		<PlacesQuery Servers="Tyumen,Surgut">
 				SELECT plc_id ID, "Name" FROM "Tepl"."Places_cnt" WHERE typ_id = 2
+		</PlacesQuery>
+
+		<PlacesQuery Servers="TyumenEnergy">
+				SELECT ID 'id', [DisplayName] 'Name' FROM [energy].[dbo].[vwDevices] WHERE ID = 17457 OR ID = 4481
 		</PlacesQuery>
 		
 		<ReportQuery ReportName="ТЭ" ReportSysName="Heat" Servers="Tyumen,Surgut">
@@ -114,6 +118,31 @@
 				WHERE D.plc_id = @PlaceID
 
 				ORDER BY P."Name"::int
+
+		</ReportQuery>
+
+
+		<ReportQuery ReportName="Вода. Нет ЦС" ReportSysName="WaterNoLink" Servers="TyumenEnergy">
+				SELECT TOP 1000 [ID]
+				,[TypeSSN]
+				,[MasterID]
+				,[Options]
+				,[DataSrcID]
+				,[OrderID]
+				,[TypeName]
+				,[TypeID]
+				,[GroupID]
+				,[TypeShort]
+				,[Addr]
+				,[Location]
+				,[DisplayName]
+				,[ObjectName]
+				,[Number]
+				,[Comment]
+				,[Pr]
+				,[Flags]
+				,[TS]
+				FROM [energy].[dbo].[vwDevices]
 
 		</ReportQuery>
 		

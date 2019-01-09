@@ -105,7 +105,12 @@ namespace Sql2Excel
             btnCreateReport.Enabled = false;
 
             IEnumerable<dynamic> rows = null;
-            rows = await Query.ExecuteAsync(AppSettings.PlacesQuery);
+
+
+
+            string placesQuery = AppSettings.PlacesQueries.FirstOrDefault(x => x.Servers.Contains(server.SysName)).Query;
+
+            rows = await Query.ExecuteAsync(placesQuery);
             List<Place> places = new List<Place>();
 
             foreach (var row in rows)
