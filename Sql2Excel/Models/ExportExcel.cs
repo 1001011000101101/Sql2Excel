@@ -73,6 +73,16 @@ namespace Sql2Excel.Models
                         i++;
                     }
 
+                    excelWorksheet.Row(startRow).Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
+                    excelWorksheet.Row(startRow).Style.Font.Bold = true;
+
+                    for (i = 0; i < excelWorksheet.Dimension.End.Column; i++)
+                    {
+                        excelWorksheet.Column(startColumn + i).AutoFit();
+                        excelWorksheet.Column(startColumn + i).BestFit = true;
+                    }
+
+
                     FileInfo fi = new FileInfo(Path.Combine(Path.GetFullPath(ReportsFolder), fileName));
                     excelPackage.SaveAs(fi);
 
