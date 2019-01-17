@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Servers>
 		<Server DbName="MSSQL" SysName="TyumenEnergy" Name="Тюмень (Энергия)" ConnectionString=""></Server>
-		<Server DbName="PostgreSQL" SysName="Tyumen" Name="Тюмень" ConnectionString=""></Server>
-		<Server DbName="PostgreSQL" SysName="Surgut" Name="Сургут" ConnectionString="Host=localhost;Username=postgres;Password=postgres;Database=SurgutGp2"></Server>
+		<Server DbName="PostgreSQL" SysName="Tyumen" Name="Тюмень (Водохран)" ConnectionString=""></Server>
+		<Server DbName="PostgreSQL" SysName="Surgut" Name="Сургут (Водохран)" ConnectionString="Host=localhost;Username=postgres;Password=postgres;Database=SurgutGp2"></Server>
 		
 </Servers>

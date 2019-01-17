@@ -16,7 +16,7 @@ namespace Sql2Excel.Models
         public async Task<AppSettings> ExecuteAsync()
         {
             AppSettings appSettings;
-            appSettings.ReportQueries = new List<(string ReportName, string ReportSysName, string Query, string[] Servers)>();
+            appSettings.ReportQueries = new List<(string ReportName, string ReportSysName, string Query, string[] Servers, bool WithDate)>();
             appSettings.PlacesQueries = new List<(string Query, string[] Servers)>();
             appSettings.Servers = new List<(string SysName, string Name, string ConnectionString, string DbName)>();
             appSettings.ServersDataSource = new List<Server>();
@@ -50,11 +50,12 @@ namespace Sql2Excel.Models
                     ReportName = x.Attribute("ReportName")?.Value,
                     ReportSysName = x.Attribute("ReportSysName")?.Value,
                     Query = x.Value,
-                    Servers = x.Attribute("Servers")?.Value.Split(',')
+                    Servers = x.Attribute("Servers")?.Value.Split(','),
+                    WithDate = Convert.ToBoolean(x.Attribute("WithDate")?.Value)
 
                 }).ToList().ForEach(x =>
                 {
-                    appSettings.ReportQueries.Add((x.ReportName, x.ReportSysName, x.Query, x.Servers));
+                    appSettings.ReportQueries.Add((x.ReportName, x.ReportSysName, x.Query, x.Servers, x.WithDate));
                 });
 
 

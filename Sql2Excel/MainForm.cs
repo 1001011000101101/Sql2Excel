@@ -146,5 +146,20 @@ namespace Sql2Excel
 
             btnCreateReport.Enabled = true;
         }
+
+        private void cbReports_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ReportType reportType = (ReportType)cbReports.SelectedItem;
+            if (reportType == null) return;
+            if (cbReports.Text != reportType.Name) return; //this prevent double executed in initialization time
+
+            bool withDate = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName).WithDate;
+
+            dtBegin.Enabled = dtEnd.Enabled = withDate;
+
+
+
+            var rtrt = "";
+        }
     }
 }

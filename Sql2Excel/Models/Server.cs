@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Sql2Excel.Models
 {
     //This class responsible for one thing - represent the server
-    class Server
+    public class Server
     {
         public string SysName { get; set; }
         public string Name { get; set; }

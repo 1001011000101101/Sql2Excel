@@ -48,7 +48,7 @@
             // btnCreateReport
             // 
             this.btnCreateReport.Enabled = false;
-            this.btnCreateReport.Location = new System.Drawing.Point(70, 194);
+            this.btnCreateReport.Location = new System.Drawing.Point(70, 181);
             this.btnCreateReport.Name = "btnCreateReport";
             this.btnCreateReport.Size = new System.Drawing.Size(116, 23);
             this.btnCreateReport.TabIndex = 0;
@@ -65,6 +65,7 @@
             this.cbReports.Name = "cbReports";
             this.cbReports.Size = new System.Drawing.Size(200, 21);
             this.cbReports.TabIndex = 1;
+            this.cbReports.SelectedIndexChanged += new System.EventHandler(this.cbReports_SelectedIndexChanged);
             // 
             // lblReport
             // 
@@ -109,7 +110,7 @@
             // 
             // btnOpenFolder
             // 
-            this.btnOpenFolder.Location = new System.Drawing.Point(192, 194);
+            this.btnOpenFolder.Location = new System.Drawing.Point(192, 181);
             this.btnOpenFolder.Name = "btnOpenFolder";
             this.btnOpenFolder.Size = new System.Drawing.Size(78, 23);
             this.btnOpenFolder.TabIndex = 7;
