@@ -20,6 +20,7 @@ using System.Xml;
 using System.Xml.Linq;
 using OfficeOpenXml;
 using System.Data.Common;
+using System.Text.RegularExpressions;
 
 namespace Sql2Excel
 {
@@ -36,6 +37,7 @@ namespace Sql2Excel
         AppSettings AppSettings;
         string ConnectionString = string.Empty;
         Query Query = null;
+        
 
         private void btnOpenFolder_Click(object sender, EventArgs e)
         {
@@ -50,16 +52,18 @@ namespace Sql2Excel
             DynamicParameters dynamicParameters = new DynamicParameters();
             Place place = (Place)cbPlaces.SelectedItem;
 
-            string sql = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName).Query;
+            var reportQuery = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName);
+
+            //string sql = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName).Query;
             dynamicParameters.Add("@PlaceID", place.ID);
             dynamicParameters.Add("@BeginDate", dtBegin.Value.Date, DbType.DateTime);
             dynamicParameters.Add("@EndDate", dtEnd.Value.Date, DbType.DateTime);
 
             lblStatus.Text = "Формирование отчета. Ожидайте";
-            rows = await Query.ExecuteAsync(sql, dynamicParameters);
+            rows = await Query.ExecuteAsync(reportQuery.Query, dynamicParameters);
             lblStatus.Text = "Экспорт отчета в Excel...";
 
-            string fileName = await Export.ExecuteAsync(rows, reportType.SysName, reportType.Name, server.Name, AppSettings.ReportsFolder);
+            string fileName = await Export.ExecuteAsync(rows, reportType.SysName, reportType.Name, server.Name, AppSettings.ReportsFolder, reportQuery.Commands, AppSettings);
             lblStatus.Text = $"Отчет сохранен";
         }
 

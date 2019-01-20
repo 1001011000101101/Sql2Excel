@@ -9,6 +9,6 @@ namespace Sql2Excel.Models
     //Close for modification and open for extension
     interface IExport
     {
-        Task<string> ExecuteAsync(IEnumerable<dynamic> Rows, string ReportSysName, string ReportName, string ServerName, string ReportsFolder);
+        Task<string> ExecuteAsync(IEnumerable<dynamic> Rows, string ReportSysName, string ReportName, string ServerName, string ReportsFolder, string[] Commands, AppSettings Settings);
     }
 }

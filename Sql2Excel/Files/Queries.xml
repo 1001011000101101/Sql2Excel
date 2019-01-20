@@ -12,24 +12,24 @@
 		</PlacesQuery>
 
 		
-		<ReportQuery ReportName="ТЭ" ReportSysName="Heat" Servers="Tyumen,Surgut" WithDate="True">
+		<ReportQuery ReportName="ТЭ" ReportSysName="Heat" Servers="Tyumen,Surgut" WithDate="True" Commands="Fill;Plot(4)">
 				SELECT * FROM "Tepl"."fnHeat"(@PlaceID, @BeginDate, @EndDate);
 		</ReportQuery>
 
-		<ReportQuery ReportName="ХВС, ГВС" ReportSysName="Water" Servers="Tyumen,Surgut" WithDate="True">
+		<ReportQuery ReportName="ХВС, ГВС" ReportSysName="Water" Servers="Tyumen, Surgut" WithDate="True" Commands="Fill">
 				SELECT * FROM "Tepl"."fnWater"(@PlaceID, @BeginDate, @EndDate);
 		</ReportQuery>
 
 
-		<ReportQuery ReportName="Вода. Дата последних показаний" ReportSysName="WaterLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False">
+		<ReportQuery ReportName="Вода. Дата последних показаний" ReportSysName="WaterLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False" Commands="Fill">
 				EXEC [dbo].[UPLastMeasureCurrents] @ResTypes = N'Вода', @PlaceID = @PlaceID
 		</ReportQuery>
 
-		<ReportQuery ReportName="ЭЭ. Дата последних показаний" ReportSysName="ElectricityLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False">
+		<ReportQuery ReportName="ЭЭ. Дата последних показаний" ReportSysName="ElectricityLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False" Commands="Fill">
 				EXEC [dbo].[UPLastMeasureCurrents] @ResTypes = N'ЭЭ', @PlaceID = @PlaceID
 		</ReportQuery>
 
-		<ReportQuery ReportName="Тепло. Дата последних показаний" ReportSysName="HeatLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False">
+		<ReportQuery ReportName="Тепло. Дата последних показаний" ReportSysName="HeatLastMeasureCurrents" Servers="TyumenEnergy" WithDate="False" Commands="Fill">
 				EXEC [dbo].[UPLastMeasureCurrents] @ResTypes = N'ТЭ,Тепло', @PlaceID = @PlaceID
 		</ReportQuery>
 		

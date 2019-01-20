@@ -15,8 +15,8 @@ namespace Sql2Excel.Models
     {
         public async Task<AppSettings> ExecuteAsync()
         {
-            AppSettings appSettings;
-            appSettings.ReportQueries = new List<(string ReportName, string ReportSysName, string Query, string[] Servers, bool WithDate)>();
+            AppSettings appSettings = new AppSettings();
+            appSettings.ReportQueries = new List<(string ReportName, string ReportSysName, string Query, string[] Servers, bool WithDate, string[] Commands)>();
             appSettings.PlacesQueries = new List<(string Query, string[] Servers)>();
             appSettings.Servers = new List<(string SysName, string Name, string ConnectionString, string DbName)>();
             appSettings.ServersDataSource = new List<Server>();
@@ -28,6 +28,8 @@ namespace Sql2Excel.Models
                 appSettings.FilesFolder = (string)appSettingsReader.GetValue("FilesFolder", typeof(string));
                 string queriesFileName = (string)appSettingsReader.GetValue("QueriesFileName", typeof(string));
                 string serversFileName = (string)appSettingsReader.GetValue("ServersFileName", typeof(string));
+                appSettings.RegexCommand = (string)appSettingsReader.GetValue("RegexCommand", typeof(string));
+                appSettings.RegexCommandParams = (string)appSettingsReader.GetValue("RegexCommandParams", typeof(string));
 
 
                 string xml = File.ReadAllText(Path.Combine(appSettings.FilesFolder, queriesFileName));
@@ -37,7 +39,7 @@ namespace Sql2Excel.Models
                 xDocument.Descendants("PlacesQuery").Select(x => new
                 {
                     Query = x.Value,
-                    Servers = x.Attribute("Servers")?.Value.Split(',')
+                    Servers = x.Attribute("Servers")?.Value.Trim().Split(',')
 
                 }).ToList().ForEach(x =>
                 {
@@ -50,12 +52,13 @@ namespace Sql2Excel.Models
                     ReportName = x.Attribute("ReportName")?.Value,
                     ReportSysName = x.Attribute("ReportSysName")?.Value,
                     Query = x.Value,
-                    Servers = x.Attribute("Servers")?.Value.Split(','),
-                    WithDate = Convert.ToBoolean(x.Attribute("WithDate")?.Value)
+                    Servers = x.Attribute("Servers")?.Value.Trim().Split(','),
+                    WithDate = Convert.ToBoolean(x.Attribute("WithDate")?.Value),
+                    Commands = x.Attribute("Commands")?.Value.Split(';')
 
                 }).ToList().ForEach(x =>
                 {
-                    appSettings.ReportQueries.Add((x.ReportName, x.ReportSysName, x.Query, x.Servers, x.WithDate));
+                    appSettings.ReportQueries.Add((x.ReportName, x.ReportSysName, x.Query, x.Servers, x.WithDate, x.Commands));
                 });
 
 
