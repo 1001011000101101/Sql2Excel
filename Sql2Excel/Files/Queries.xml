@@ -16,7 +16,7 @@
 				SELECT * FROM "Tepl"."fnHeat"(@PlaceID, @BeginDate, @EndDate);
 		</ReportQuery>
 
-		<ReportQuery ReportName="ХВС, ГВС" ReportSysName="Water" Servers="Tyumen, Surgut" WithDate="True" Commands="Fill">
+		<ReportQuery ReportName="ХВС, ГВС" ReportSysName="Water" Servers="Tyumen,Surgut" WithDate="True" Commands="Fill">
 				SELECT * FROM "Tepl"."fnWater"(@PlaceID, @BeginDate, @EndDate);
 		</ReportQuery>
 
