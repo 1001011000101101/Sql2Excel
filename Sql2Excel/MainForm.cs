@@ -54,7 +54,6 @@ namespace Sql2Excel
 
             var reportQuery = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName);
 
-            //string sql = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName).Query;
             dynamicParameters.Add("@PlaceID", place.ID);
             dynamicParameters.Add("@BeginDate", dtBegin.Value.Date, DbType.DateTime);
             dynamicParameters.Add("@EndDate", dtEnd.Value.Date, DbType.DateTime);
@@ -160,10 +159,6 @@ namespace Sql2Excel
             bool withDate = AppSettings.ReportQueries.FirstOrDefault(x => x.ReportSysName == reportType.SysName).WithDate;
 
             dtBegin.Enabled = dtEnd.Enabled = withDate;
-
-
-
-            var rtrt = "";
         }
     }
 }
